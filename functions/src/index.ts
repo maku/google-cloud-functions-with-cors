@@ -1,8 +1,14 @@
 import * as functions from 'firebase-functions';
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/functions/write-firebase-functions
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+import * as cors from 'cors';
+const corsHandler = cors({origin: true});
+
+export const pingFunction = functions.https.onRequest((request, response) => {
+  response.send(`Ping from Firebase! ${new Date().toISOString()}`);
+});
+
+export const pingFunctionWithCorsAllowed = functions.https.onRequest((request, response) => {
+  corsHandler(request, response, () => {
+    response.send(`Ping from Firebase (with CORS handling)! ${new Date().toISOString()}`);
+  });
+});
